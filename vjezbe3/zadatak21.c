@@ -25,6 +25,7 @@ int readFromFile(Node head, char* filename);
 int freeList(Node node);
 void printList(Node node);
 
+Node createPersonFromInput();
 int countRowsInFile(FILE* fptr);
 FILE* safeOpen(char* filename, char* mode);
 
@@ -50,6 +51,11 @@ int main(){
 			searchElement->lastName,
 			searchElement->birthYear
 		);
+		printf("\n\n");
+		Node person1 = createPersonFromInput();
+		Node person2 = createPersonFromInput();
+		insertAfter(person1, searchElement, head);
+		insertBefore(person2, searchElement, head);
 
 	printf("\n\nEnter the last name of the person you want to delete:\n");
 	scanf("%s", search);
@@ -60,7 +66,10 @@ int main(){
 	printf("\n\n");
 
 	sortListByLastName(head);
+	printf("List of people after sorting\n");
 	printList(head->next);
+	printf("\n\n");
+
 	printf("Enter name of file you want to write to: ");
 	scanf("%s", newFilename);
 	writeToFile(head->next, newFilename);
@@ -68,34 +77,33 @@ int main(){
 	freeList(head);
 }
 
-int pushFront(Node element, Node head){
-	element->next = head->next;
-	head->next = element;
+int pushFront(Node element, Node start){
+	element->next = start->next;
+	start->next = element;
 	return 0;
 }
 
-int insertBefore(Node element, Node target, Node head){
-	while(target!=head->next)
-		head=head->next;
-	element->next = head->next;
-	head->next = element;
+int insertBefore(Node element, Node target, Node start){
+	while(target!=start->next)
+		start=start->next;
+	pushFront(element, start);
 	return 0;
 }
 
-int pushBack(Node element, Node head){
-	while(head->next != NULL)
-		head = head->next;
-	head->next = element;
+int pushBack(Node element, Node start){
+	while(start->next != NULL)
+		start = start->next;
+	start->next = element;
 	return 0;
 }
 
-int insertAfter(Node element, Node target, Node head){
-	while(target != head)
-		head=head->next;
-	element->next = head->next;
-	head->next = element;
+int insertAfter(Node element, Node target, Node start){
+	while(target != start)
+		start=start->next;
+	pushFront(element, start);
 	return 0;
 }
+
 
 Node findElement(char* lastName, Node node){
 	while(node!=NULL && strcmp(node->lastName, lastName) != 0)
@@ -208,3 +216,11 @@ FILE* safeOpen(char * name, char* mode){
     return fptr;
 }
 
+
+Node createPersonFromInput(){
+	Node person = (Node)malloc(sizeof(Person));
+	person->next = NULL;
+	printf("Enter person data in format: [name] [surname] [birth year]\n");
+	scanf("%s %s %d", person->firstName, person->lastName, &person->birthYear);
+	return person;	
+}
