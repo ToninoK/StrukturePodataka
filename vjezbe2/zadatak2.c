@@ -2,23 +2,24 @@
 #include<stdlib.h>
 #include<string.h>
 
+typedef struct _person* Node;
 typedef struct _person{
 	char firstName[100];
 	char lastName[100];
 	int birthYear;
-	struct _person* next;
+	Node next;
 }Person;
 
-Person* createPersonFromInput();
-void pushFront(Person* element, Person* node);
-void pushBack(Person* element, Person* node);
-Person* findElement(char* lastName, Person* node);
-void deleteElement(char* lastName, Person* node);
-void freeList(Person* node);
-void printList(Person* node);
+Node createPersonFromInput();
+int pushFront(Node element, Node node);
+int pushBack(Node element, Node node);
+Node findElement(char* lastName, Node node);
+int deleteElement(char* lastName, Node node);
+int freeList(Node node);
+int printList(Node node);
 
 int main(){
-	Person* head = (Person* )malloc(sizeof(Person));
+	Node head = (Node )malloc(sizeof(Person));
 	head->next = NULL;
 	char search[100];
 
@@ -34,7 +35,7 @@ int main(){
 	printf("\n\nEnter the last name of the person you want to find:\n");
 	scanf("%s", search);
 
-	Person* searchElement = findElement(search, head);
+	Node searchElement = findElement(search, head);
 	printf(
 		"\nFound person: %s %s %d\n\n",
 		searchElement->firstName,
@@ -53,50 +54,55 @@ int main(){
 	freeList(head);
 }
 
-void pushFront(Person* element, Person* node){
+int pushFront(Node element, Node node){
 	element->next = node->next;
 	node->next = element;
+	return 0;
 }
 
-void pushBack(Person* element, Person* node){
+int pushBack(Node element, Node node){
 	while(node->next != NULL)
 		node = node->next;
 	node->next = element;
+	return 0;
 }
 
-Person* findElement(char* lastName, Person* node){
+Node findElement(char* lastName, Node node){
 	while(strcmp(node->lastName, lastName) != 0)
 		node = node->next;
 	return node;
 }
 
-void deleteElement(char* lastName, Person* node){
-	Person* toFree = findElement(lastName, node);
+int deleteElement(char* lastName, Node node){
+	Node toFree = findElement(lastName, node);
 	while(node->next != toFree)
 		node = node->next;
 	node->next = toFree->next;
 	free(toFree);
+	return 0;
 }
 
-void freeList(Person* head){
-	Person* toDelete = NULL;
+int freeList(Node head){
+	Node toDelete = NULL;
 	while(head->next != NULL){
 		toDelete = head;
 		head = head->next;
 		free(toDelete);
 	}
+	return 0;
 }
 
-void printList(Person* node){
+int printList(Node node){
 	while(node != NULL){
 		printf("%s %s %d\n", node->firstName, node->lastName, node->birthYear);
 		node = node->next;
 	}
+	return 0;
 }
 
 
-Person* createPersonFromInput(){
-	Person* person = (Person* )malloc(sizeof(Person));
+Node createPersonFromInput(){
+	Node person = (Node)malloc(sizeof(Person));
 	person->next = NULL;
 	printf("Enter person data in format: [name] [surname] [birth year]\n");
 	scanf("%s %s %d", person->firstName, person->lastName, &person->birthYear);
