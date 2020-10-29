@@ -36,12 +36,13 @@ int main(){
 	scanf("%s", search);
 
 	Node searchElement = findElement(search, head);
-	printf(
-		"\nFound person: %s %s %d\n\n",
-		searchElement->firstName,
-		searchElement->lastName,
-		searchElement->birthYear
-	);
+	if(searchElement!=NULL)
+		printf(
+			"\nFound person: %s %s %d\n\n",
+			searchElement->firstName,
+			searchElement->lastName,
+			searchElement->birthYear
+		);
 
 	printf("\n\nEnter the last name of the person you want to delete:\n");
 	scanf("%s", search);
@@ -68,13 +69,15 @@ int pushBack(Node element, Node node){
 }
 
 Node findElement(char* lastName, Node node){
-	while(strcmp(node->lastName, lastName) != 0)
+	while(node!=NULL && strcmp(node->lastName, lastName) != 0)
 		node = node->next;
 	return node;
 }
 
 int deleteElement(char* lastName, Node node){
 	Node toFree = findElement(lastName, node);
+	if(toFree==NULL)
+		return 1;
 	while(node->next != toFree)
 		node = node->next;
 	node->next = toFree->next;
