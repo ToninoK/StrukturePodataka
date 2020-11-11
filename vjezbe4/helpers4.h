@@ -14,7 +14,7 @@ typedef struct _element{
 int fSortRead(Node start, char* filename); 
 Node sumElement(Node elOne, Node elTwo);
 int sumPolynomials(Node startOne, Node startTwo, Node sumPolynomial);
-int productOfPolinomials(Node startOne, Node startTwo, Node polynomialProduct);
+int productOfPolynomials(Node startOne, Node startTwo, Node polynomialProduct);
 int insertAndSum(Node start, Node element);
 FILE* safeOpen(char* filename, char* mode);
 void printList(Node start);

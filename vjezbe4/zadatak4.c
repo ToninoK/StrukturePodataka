@@ -13,15 +13,20 @@ int main(){
     Node product = (Node)malloc(sizeof(Element));
     fSortRead(headOne, p1);
     fSortRead(headTwo, p2);
-    printList(headOne->next);
-    printList(headTwo->next);
     sumPolynomials(headOne->next, headTwo->next, sum);
-    printList(sum->next);
-    productOfPolinomials(headOne->next, headTwo->next, product);
-    printList(product->next);
+    productOfPolynomials(headOne->next, headTwo->next, product);
+
+
+    printList(headOne->next);
     freeList(headOne);
+
+    printList(headTwo->next);
     freeList(headTwo);
+
+    printList(sum->next);
     freeList(sum);
+
+    printList(product->next);
     freeList(product);
     return 0;
 }

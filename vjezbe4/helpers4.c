@@ -71,13 +71,19 @@ int sumPolynomials(Node startOne, Node startTwo, Node polynomialSum){
             continue;
         }
         if (startOne->exponent > startTwo->exponent){
-            polynomialSum->next = startOne;
+            polynomialSum->next = createElement(
+                startOne->exponent,
+                startOne->factor
+            );
             polynomialSum = polynomialSum->next;
             startOne = startOne->next;
             continue;
         }
         if(startOne->exponent < startTwo->exponent){
-            polynomialSum->next = startTwo;
+            polynomialSum->next = polynomialSum->next = createElement(
+                startTwo->exponent,
+                startTwo->factor
+            );
             polynomialSum = polynomialSum->next;
             startTwo = startTwo->next;  
         }
@@ -86,26 +92,9 @@ int sumPolynomials(Node startOne, Node startTwo, Node polynomialSum){
 }
 
 
-int insertAndSum(Node start, Node element){
-    while(start!=NULL){
-        if(start->exponent == element->exponent){
-            start->factor += element->factor;
-            return 0;
-        }
-        if(start->exponent > element->exponent){
-            if(start->next == NULL){
-                start->next = element;
-                return 0;
-            }
-        }
-        start = start->next;
-    }
-    return 0;
-}
-
-
-int productOfPolinomials(Node startOne, Node startTwo, Node polynomialProduct){
+int productOfPolynomials(Node startOne, Node startTwo, Node polynomialProduct){
     while(startOne!=NULL){
+        Node temp = startTwo;
         while(startTwo!=NULL){
             insertAndSum(
                 polynomialProduct,
@@ -116,8 +105,22 @@ int productOfPolinomials(Node startOne, Node startTwo, Node polynomialProduct){
             );
             startTwo = startTwo->next;
         }
+        startTwo = temp;
         startOne = startOne->next;
     }
+    return 0;
+}
+
+
+int insertAndSum(Node start, Node element){
+    while(start->next!=NULL){
+        if(start->next->exponent == element->exponent){
+            start->next->factor += element->factor;
+            return 0;
+        }
+        start = start->next;
+    }
+    start->next = createElement(element->exponent, element->factor);
     return 0;
 }
 
