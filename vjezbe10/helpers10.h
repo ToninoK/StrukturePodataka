@@ -24,3 +24,4 @@ Node readAndStorePostfix(char* filename, StackNode head);
 StackNode createNewStackNode(Node tree);
 int readPostfixWriteInfix(char* filename, StackNode head);
 int isFloat(char* member);
+int freeTree(Node);

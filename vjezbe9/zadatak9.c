@@ -18,4 +18,5 @@ int main(){
     printf("\n");
     Node found = findNode(9, root);
     printf("%d\n", found->number);
+    freeTree(root);
 }

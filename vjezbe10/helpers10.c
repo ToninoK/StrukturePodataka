@@ -126,6 +126,15 @@ int readPostfixWriteInfix(char* filename, StackNode head){
     FILE* f = safeOpen(inputFile, "w");
     fputc('\n', f);
     traverseAndWrite(f, tree, 1);
+    freeTree(tree);
     fputc('\n', f);
     fclose(f);
+}
+
+int freeTree(Node tree){
+    if(tree==NULL)
+        return 0;
+    freeTree(tree->left);
+    freeTree(tree->right);
+    free(tree);
 }
