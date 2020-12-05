@@ -59,9 +59,19 @@ int pop(TrackerPtr position){
 
 int makeDir(char* name, TrackerPtr position){
 	DirPtr currentDir = position->next->currentDir;
-	DirPtr newDir = createDirectoryElement(name);
 	DirPtr existingChild = currentDir->child;
+	DirPtr temp = existingChild;
+	while(temp != NULL){
+		if(temp->name == name){
+			printf("Directory with same name already exists.");
+			return 1;
+		}
+		temp = temp->sibling;
+	}
+	
+	DirPtr newDir = createDirectoryElement(name);
 	currentDir->child = newDir;
+	
 	if(existingChild != NULL)
 		newDir->sibling = existingChild;
 	
@@ -165,6 +175,7 @@ int runConsole(DirPtr dir, TrackerPtr position){
 
 		char* command;
 		char* argument;
+		//gets ne postoji u linux paketima, samo fgets sa standardnim ulazom
 		fgets(line, 50, stdin);
 		command = strtok(line, " ");
 		argument = strtok(NULL, " ");
