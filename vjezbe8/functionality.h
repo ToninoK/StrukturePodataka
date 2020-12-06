@@ -9,6 +9,7 @@ typedef struct _dir {
 	char* name;
 	DirPtr child;
 	DirPtr sibling;
+	DirPtr parent;
 } Dir;
 
 typedef struct _tracker {
@@ -18,17 +19,20 @@ typedef struct _tracker {
 
 int runConsole(DirPtr, TrackerPtr);
 
-DirPtr createDirectortElement(char*);
-int makeDir(char*, TrackerPtr);
+int makeDir(char*, DirPtr);
 int changeDir(char*, TrackerPtr, DirPtr);
 int exitConsole(TrackerPtr, DirPtr);
-int listDir(TrackerPtr);
+int listDir(DirPtr);
 int freeDirs(DirPtr);
+DirPtr findSearchedDir(char*, TrackerPtr, DirPtr, int);
 
 char* generatePositionString(TrackerPtr);
-char* strrev(char*);
-
-TrackerPtr createPosition(DirPtr);
+char* getLastPathPart(char* argument);
+char* getPathWithoutLast(char* argument);
 int push(DirPtr, TrackerPtr);
 int pop(TrackerPtr);
-TrackerPtr initializeTracker(DirPtr dir);
+TrackerPtr initializeTracker(DirPtr);
+DirPtr createDirectoryElement(char*);
+TrackerPtr createPosition(DirPtr);
+char* strrev(char*);
+
